@@ -1,247 +1,484 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Las 100 mejores series del siglo XXI</title>
-<style>
-  :root{
-    --bg:#fdfdfb; --fg:#111; --muted:#666; --line:#ddd; --accent:#0a5c36;
-    --row-hover:#f3f2ee; --chip-bg:#eee; --chip-active:#111; --chip-active-fg:#fff;
-    box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#15161a; --fg:#eee; --muted:#999; --line:#333;
-      --row-hover:#1f2024; --chip-bg:#2a2b30; --chip-active:#eee; --chip-active-fg:#111;
+<!-- Tailwind CSS for modern, flexible styling -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          spanish: ['"Lora"', '"Georgia"', 'serif'],
+        }
+      }
     }
   }
-  :root[data-theme="dark"]{
-    --bg:#15161a; --fg:#eee; --muted:#999; --line:#333;
-    --row-hover:#1f2024; --chip-bg:#2a2b30; --chip-active:#eee; --chip-active-fg:#111;
+</script>
+<!-- Google Fonts: Playfair Display, Inter & Lora -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<!-- FontAwesome for refined icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --fg: #171717;
+    --muted: #737373;
+    --line: #e5e5e5;
+    --accent: #047857;
+    --row-hover: #f5f5f4;
+    --row-stripe: rgba(0, 0, 0, 0.025);
+    --chip-bg: #f4f4f5;
+    --chip-active: #171717;
+    --chip-active-fg: #ffffff;
   }
-  html{scroll-padding-top:env(safe-area-inset-top,0px);}
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--bg); color:var(--fg);
-    font-family: Georgia, 'Times New Roman', serif;
-    -webkit-font-smoothing:antialiased;
+  .dark {
+    --bg: #0f1013;
+    --fg: #f3f4f6;
+    --muted: #9ca3af;
+    --line: #27272a;
+    --accent: #10b981;
+    --row-hover: #18191e;
+    --row-stripe: rgba(255, 255, 255, 0.025);
+    --chip-bg: #27272a;
+    --chip-active: #f3f4f6;
+    --chip-active-fg: #0f1013;
   }
-  header{
-    padding:20px 16px 12px; border-bottom:2px solid var(--fg);
-    position:sticky; top:0; background:var(--bg); z-index:5;
-    padding-top:calc(20px + env(safe-area-inset-top,0px));
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  .masthead{font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:4px;}
-  h1{margin:0 0 12px; font-size:clamp(20px,5vw,30px); line-height:1.2;}
-  .controls{display:flex; gap:8px; flex-wrap:wrap; align-items:center; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
-  .chip{
-    border:1px solid var(--line); background:var(--chip-bg); color:var(--fg);
-    padding:7px 14px; border-radius:20px; font-size:13px; cursor:pointer;
-    white-space:nowrap;
+  h1, h2, .font-editorial {
+    font-family: 'Playfair Display', Georgia, serif;
   }
-  .chip.active{background:var(--chip-active); color:var(--chip-active-fg); border-color:var(--chip-active);}
-  .stats{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; font-size:12px; color:var(--muted); margin-left:auto; white-space:nowrap;}
-  .search{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:14px; padding:7px 12px; border-radius:20px; border:1px solid var(--line);
-    background:var(--bg); color:var(--fg); flex:1 1 140px; min-width:100px;
+  .spanish-title {
+    font-family: 'Lora', serif;
   }
-  main{padding:8px 16px 40px; max-width:900px; margin:0 auto;}
-  .col-head{
-    display:grid; grid-template-columns:1fr 60px 78px;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted);
-    border-bottom:1px solid var(--line); padding:10px 4px; position:sticky;
-    top:calc(96px + env(safe-area-inset-top,0px)); background:var(--bg); z-index:4;
+  /* Alternate row striping for enhanced legibility */
+  #list li:nth-child(even) {
+    background-color: var(--row-stripe);
   }
-  .col-head span:nth-child(2), .col-head span:nth-child(3){text-align:center;}
-  ul{list-style:none; margin:0; padding:0;}
-  li.row{
-    display:grid; grid-template-columns:1fr 60px 78px; align-items:center;
-    padding:10px 4px; border-bottom:1px solid var(--line); gap:4px;
-  }
-  li.row:hover{background:var(--row-hover);}
-  li.row.hidden{display:none;}
-  .title-cell{display:flex; gap:8px; min-width:0;}
-  .num{color:var(--muted); font-size:14px; min-width:26px;}
-  .name{font-size:15px; line-height:1.35;}
-  .name b{font-weight:700;}
-  .years{color:var(--muted); font-size:13px;}
-  .check{display:flex; justify-content:center;}
-  input[type=checkbox]{
-    width:20px; height:20px; cursor:pointer; accent-color:var(--accent);
-  }
-  footer{
-    text-align:center; padding:20px; font-size:12px; color:var(--muted);
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));
-  }
-  .reset-btn{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:12px; color:var(--muted); background:none; border:1px solid var(--line);
-    padding:6px 12px; border-radius:20px; cursor:pointer;
-  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 9999px; opacity: 0.3; }
 </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
 
-<header>
-  <div class="masthead">The New York Times</div>
-  <h1>Las 100 mejores series del siglo XXI</h1>
-  <div class="controls">
-    <button class="chip active" data-filter="all">Todas</button>
-    <button class="chip" data-filter="seen">✅ Vistas</button>
-    <button class="chip" data-filter="pending">🔖 Pendientes</button>
-    <button class="chip" data-filter="unmarked">Sin marcar</button>
-    <input class="search" type="text" placeholder="Buscar título…" id="searchBox">
-    <span class="stats" id="stats"></span>
-  </div>
-</header>
-
-<main>
-  <div class="col-head">
-    <span>Serie</span>
-    <span>Vista</span>
-    <span>Pendiente</span>
-  </div>
-  <ul id="list"></ul>
-</main>
-
-<footer>
-  Datos guardados solo en este navegador (localStorage). ·
-  <button class="reset-btn" id="resetBtn">Borrar todas mis marcas</button>
-</footer>
-
-<script>
-const shows = [
-["Breaking Bad","2008-2013"],["The Wire","2002-2008"],["Mad Men","2007-2015"],
-["Succession","2018-2023"],["Fleabag","2016-2019"],["Game of Thrones","2011-2019"],
-["Veep","2012-2019"],["30 Rock","2006-2013"],["Curb Your Enthusiasm","2000-2024"],
-["Atlanta","2016-2022"],["The Office (U.S.)","2005-2013"],["Arrested Development","2003-2019"],
-["Girls","2012-2017"],["Friday Night Lights","2006-2011"],["Six Feet Under","2001-2005"],
-["The Office (U.K.)","2001-2003"],["The Americans","2013-2018"],["I May Destroy You","2020"],
-["Chernobyl","2019"],["The Crown","2016-2023"],["The White Lotus","2021-present"],
-["Lost","2004-2010"],["The Comeback","2005-2026"],["Deadwood","2004-2006"],
-["The Leftovers","2014-2017"],["Black Mirror","2011-present"],["Better Call Saul","2015-2022"],
-["Band of Brothers","2001"],["Key & Peele","2012-2015"],["Severance","2022-present"],
-["Survivor","2000-present"],["Andor","2022-2025"],["Enlightened","2011-2013"],
-["Schitt's Creek","2015-2020"],["True Detective (Season 1)","2014"],["The Pitt","2025-present"],
-["Battlestar Galactica","2005-2009"],["Homeland","2011-2020"],["Watchmen","2019"],
-["Adolescence","2025"],["Louie","2010-2015"],["Hacks","2021-2026"],
-["Peaky Blinders","2013-2022"],["BoJack Horseman","2014-2020"],["Happy Valley","2014-2023"],
-["Broad City","2014-2019"],["Twin Peaks: The Return","2017"],["House of Cards","2013-2018"],
-["Normal People","2020"],["Parks and Recreation","2009-2015"],["The Good Place","2016-2020"],
-["Downton Abbey","2010-2015"],["Stranger Things","2016-2025"],["The Bureau","2015-2020"],
-["Insecure","2016-2021"],["Nathan for You","2013-2017"],["I Think You Should Leave","2019-present"],
-["Chappelle's Show","2003-2006"],["PEN15","2019-2021"],["Peep Show","2003-2015"],
-["RuPaul's Drag Race","2009-present"],["Slow Horses","2022-present"],["The Thick of It","2005-2012"],
-["Anthony Bourdain: Parts Unknown","2013-2018"],["Mare of Easttown","2021"],["The Rehearsal","2022-present"],
-["The Handmaid's Tale","2017-2025"],["Ozark","2017-2022"],["Anthony Bourdain: No Reservations","2005-2012"],
-["The Shield","2002-2008"],["Beef (Season 1)","2023"],["Squid Game","2021-2025"],
-["Barry","2018-2023"],["The Bear","2022-2026"],["Ted Lasso","2020-present"],
-["Somebody Somewhere","2022-2024"],["Modern Family","2009-2020"],["It's Always Sunny in Philadelphia","2005-present"],
-["The Good Wife","2009-2016"],["How To With John Wilson","2020-2023"],["The Queen's Gambit","2020"],
-["Better Things","2016-2022"],["Justified","2010-2015"],["Planet Earth","2006"],
-["The Great British Baking Show","2010-present"],["Shogun","2024-present"],["Reservation Dogs","2021-2023"],
-["Dexter","2006-2013"],["Baby Reindeer","2024"],["Eastbound & Down","2009-2013"],
-["Catastrophe","2015-2019"],["The Night Of","2016"],["Station Eleven","2021-2022"],
-["The Diplomat","2023-present"],["House","2004-2012"],["Halt and Catch Fire","2014-2017"],
-["Community","2009-2015"],["The OA","2016-2019"],["Gilmore Girls","2000-2007"],
-["Scandal","2012-2018"]
-];
-
-const STORAGE_KEY = 'nyt100_series_estado_v1';
-let state = {};
-try{
-  state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-}catch(e){ state = {}; }
-
-function save(){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch(e){ console.error('No se pudo guardar', e); }
-}
-
-const list = document.getElementById('list');
-const statsEl = document.getElementById('stats');
-let currentFilter = 'all';
-let searchTerm = '';
-
-function render(){
-  list.innerHTML = '';
-  let seenCount = 0, pendingCount = 0;
-
-  shows.forEach((show, i)=>{
-    const id = 'show_' + i;
-    const [name, years] = show;
-    const st = state[id] || {seen:false, pending:false};
-    if(st.seen) seenCount++;
-    if(st.pending) pendingCount++;
-
-    const matchesFilter =
-      currentFilter === 'all' ||
-      (currentFilter === 'seen' && st.seen) ||
-      (currentFilter === 'pending' && st.pending) ||
-      (currentFilter === 'unmarked' && !st.seen && !st.pending);
-
-    const matchesSearch = name.toLowerCase().includes(searchTerm);
-
-    const li = document.createElement('li');
-    li.className = 'row' + ((matchesFilter && matchesSearch) ? '' : ' hidden');
-
-    li.innerHTML = `
-      <div class="title-cell">
-        <span class="num">${i+1}.</span>
-        <span class="name"><b>${name}</b> <span class="years">(${years})</span></span>
+  <header class="sticky top-0 z-30 backdrop-blur-xl bg-[var(--bg)]/90 border-b border-[var(--line)] transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center space-x-3">
+          <!-- Author badge with elegant red/rose shading -->
+          <span class="text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-md bg-gradient-to-r from-rose-500/15 to-red-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 shadow-xs">
+            <i class="fa-solid fa-feather-pointed mr-1"></i> The New York Times & Pepe Reyes
+          </span>
+          <!-- Discreet logo linked to pepe-reyes.es -->
+          <a href="https://pepe-reyes.es/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity" title="Sitio web de Pepe Reyes">
+            <img src="https://pepe-reyes.es/prys_icono.png" alt="Logo Pepe Reyes" class="w-5 h-5 object-contain rounded-full border border-[var(--line)] bg-[var(--chip-bg)] group-hover:scale-105 transition-transform" onerror="this.style.display='none'">
+            <span class="text-[11px] font-medium text-[var(--muted)] hidden sm:inline">pepe-reyes.es</span>
+          </a>
+        </div>
+        <!-- Theme toggle button -->
+        <button id="themeToggle" class="w-9 h-9 rounded-full flex items-center justify-center border border-[var(--line)] bg-[var(--chip-bg)] text-[var(--fg)] hover:scale-105 active:scale-95 transition-all shadow-sm" aria-label="Cambiar tema">
+          <i class="fa-solid fa-moon dark:hidden text-xs"></i>
+          <i class="fa-solid fa-sun hidden dark:block text-xs text-amber-400"></i>
+        </button>
       </div>
-      <div class="check"><input type="checkbox" data-id="${id}" data-kind="seen" ${st.seen?'checked':''}></div>
-      <div class="check"><input type="checkbox" data-id="${id}" data-kind="pending" ${st.pending?'checked':''}></div>
-    `;
-    list.appendChild(li);
-  });
 
-  statsEl.textContent = `Vistas: ${seenCount} · Pendientes: ${pendingCount} · Total: ${shows.length}`;
-}
+      <h1 class="text-2xl sm:text-4xl font-bold tracking-tight mb-4 font-editorial">Las 100 mejores series del siglo XXI</h1>
 
-list.addEventListener('change', (e)=>{
-  const input = e.target;
-  if(input.tagName !== 'INPUT') return;
-  const id = input.dataset.id;
-  const kind = input.dataset.kind;
-  if(!state[id]) state[id] = {seen:false, pending:false};
-  state[id][kind] = input.checked;
-  // si marcas "vista" quitamos "pendiente" automáticamente, y viceversa
-  if(kind === 'seen' && input.checked) state[id].pending = false;
-  if(kind === 'pending' && input.checked) state[id].seen = false;
-  save();
-  render();
-});
+      <!-- Controls & Filters bar -->
+      <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+          <button class="chip active whitespace-nowrap text-xs font-medium px-3.5 py-2 rounded-full border transition-all duration-200 cursor-pointer shadow-sm" data-filter="all">Todas</button>
+          <button class="chip whitespace-nowrap text-xs font-medium px-3.5 py-2 rounded-full border transition-all duration-200 cursor-pointer shadow-sm flex items-center gap-1.5" data-filter="seen"><i class="fa-solid fa-check text-emerald-500"></i> Vistas</button>
+          <button class="chip whitespace-nowrap text-xs font-medium px-3.5 py-2 rounded-full border transition-all duration-200 cursor-pointer shadow-sm flex items-center gap-1.5" data-filter="pending"><i class="fa-solid fa-bookmark text-amber-500"></i> Pendientes</button>
+          <button class="chip whitespace-nowrap text-xs font-medium px-3.5 py-2 rounded-full border transition-all duration-200 cursor-pointer shadow-sm" data-filter="unmarked">Sin marcar</button>
+        </div>
 
-document.querySelectorAll('.chip').forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    currentFilter = chip.dataset.filter;
+        <div class="flex items-center gap-3">
+          <div class="relative flex-1 md:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-[var(--muted)]"></i>
+            <input class="search w-full pl-9 pr-4 py-2 text-xs sm:text-sm rounded-full border border-[var(--line)] bg-[var(--bg)] text-[var(--fg)] focus:outline-none focus:ring-2 focus:ring-rose-500/50 transition-all shadow-inner" type="text" placeholder="Buscar título o en español…" id="searchBox">
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats bar tracker -->
+      <div class="mt-3 flex items-center justify-between text-xs text-[var(--muted)] px-1 font-medium">
+        <span id="stats" class="tracking-wide">Cargando estadísticas...</span>
+        <div class="hidden sm:flex items-center gap-2">
+          <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Vista</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Pendiente</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6">
+    <!-- Table Header (sticky below header) -->
+    <div class="sticky top-[136px] sm:top-[144px] z-20 bg-[var(--bg)]/95 backdrop-blur-md grid grid-cols-12 text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)] py-3 px-3 border-b border-[var(--line)] shadow-xs">
+      <div class="col-span-8 sm:col-span-9 pl-1">Serie / Estreno en España / Años</div>
+      <div class="col-span-2 sm:col-span-1 text-center">Vista</div>
+      <div class="col-span-2 sm:col-span-2 text-center">Pendiente</div>
+    </div>
+
+    <!-- Shows List -->
+    <ul id="list" class="divide-y divide-[var(--line)]">
+      <!-- Dynamic list items will be injected here -->
+    </ul>
+
+    <!-- Empty search or filter state -->
+    <div id="emptyState" class="hidden text-center py-16 px-4">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--chip-bg)] flex items-center justify-center text-[var(--muted)] text-xl border border-[var(--line)]">
+        <i class="fa-solid fa-film"></i>
+      </div>
+      <h3 class="text-lg font-semibold font-editorial mb-1">No se encontraron series</h3>
+      <p class="text-sm text-[var(--muted)] max-w-sm mx-auto">Prueba a modificar los filtros o el término de búsqueda introducido.</p>
+    </div>
+  </main>
+
+  <footer class="border-t border-[var(--line)] py-8 mt-auto bg-[var(--bg)] transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
+      <div class="flex items-center flex-wrap justify-center sm:justify-start gap-2">
+        <span class="text-rose-600 dark:text-rose-400 font-medium">The New York Times & Pepe Reyes</span> · <span>Datos guardados en tu navegador (localStorage).</span>
+        <a href="https://pepe-reyes.es/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[var(--fg)] hover:text-rose-500 transition-colors font-medium">
+          <img src="https://pepe-reyes.es/prys_icono.png" alt="Logo" class="w-4 h-4 object-contain" onerror="this.style.display='none'">
+          <span>pepe-reyes.es</span>
+        </a>
+      </div>
+      <button class="reset-btn px-4 py-2 rounded-full border border-[var(--line)] hover:border-red-500/50 hover:text-red-500 hover:bg-red-500/5 transition-all font-medium cursor-pointer flex items-center gap-2" id="resetBtn">
+        <i class="fa-solid fa-trash-can text-[11px]"></i> Borrar todas mis marcas
+      </button>
+    </div>
+  </footer>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-200">
+    <div class="bg-[var(--bg)] border border-[var(--line)] rounded-2xl max-w-sm w-full p-6 shadow-2xl transform scale-95 transition-transform duration-200" id="modalBox">
+      <div class="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mb-4 text-lg">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-lg font-bold font-editorial mb-2">¿Borrar todas tus marcas?</h3>
+      <p class="text-sm text-[var(--muted)] mb-6">Esta acción restablecerá por completo tu progreso guardado y no se podrá deshacer.</p>
+      <div class="flex items-center justify-end gap-3">
+        <button id="modalCancel" class="px-4 py-2 rounded-xl text-xs font-semibold border border-[var(--line)] hover:bg-[var(--row-hover)] transition-colors cursor-pointer">Cancelar</button>
+        <button id="modalConfirm" class="px-4 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-700 text-white transition-colors shadow-sm cursor-pointer">Sí, borrar todo</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Database of the 100 shows with original titles, Spanish release titles in parentheses, and broadcast years
+    const shows = [
+      ["Breaking Bad","","2008-2013"],
+      ["The Wire","Bajo escucha","2002-2008"],
+      ["Mad Men","","2007-2015"],
+      ["Succession","","2018-2023"],
+      ["Fleabag","","2016-2019"],
+      ["Game of Thrones","Juego de tronos","2011-2019"],
+      ["Veep","","2012-2019"],
+      ["30 Rock","Rockefeller Plaza","2006-2013"],
+      ["Curb Your Enthusiasm","","2000-2024"],
+      ["Atlanta","","2016-2022"],
+      ["The Office (U.S.)","The Office (EE. UU.)","2005-2013"],
+      ["Arrested Development","","2003-2019"],
+      ["Girls","","2012-2017"],
+      ["Friday Night Lights","","2006-2011"],
+      ["Six Feet Under","A dos metros bajo tierra","2001-2005"],
+      ["The Office (U.K.)","The Office (Reino Unido)","2001-2003"],
+      ["The Americans","","2013-2018"],
+      ["I May Destroy You","Podría destruirte","2020"],
+      ["Chernobyl","","2019"],
+      ["The Crown","","2016-2023"],
+      ["The White Lotus","","2021-present"],
+      ["Lost","Perdidos","2004-2010"],
+      ["The Comeback","","2005-2026"],
+      ["Deadwood","","2004-2006"],
+      ["The Leftovers","","2014-2017"],
+      ["Black Mirror","","2011-present"],
+      ["Better Call Saul","","2015-2022"],
+      ["Band of Brothers","Hermanos de sangre","2001"],
+      ["Key & Peele","","2012-2015"],
+      ["Severance","Separación","2022-present"],
+      ["Survivor","","2000-present"],
+      ["Andor","","2022-2025"],
+      ["Enlightened","Iluminada","2011-2013"],
+      ["Schitt's Creek","","2015-2020"],
+      ["True Detective (Season 1)","True Detective (Temporada 1)","2014"],
+      ["The Pitt","","2025-present"],
+      ["Battlestar Galactica","","2005-2009"],
+      ["Homeland","","2011-2020"],
+      ["Watchmen","","2019"],
+      ["Adolescence","","2025"],
+      ["Louie","","2010-2015"],
+      ["Hacks","","2021-2026"],
+      ["Peaky Blinders","","2013-2022"],
+      ["BoJack Horseman","","2014-2020"],
+      ["Happy Valley","","2014-2023"],
+      ["Broad City","","2014-2019"],
+      ["Twin Peaks: The Return","Twin Peaks: El retorno","2017"],
+      ["House of Cards","","2013-2018"],
+      ["Normal People","Gente normal","2020"],
+      ["Parks and Recreation","","2009-2015"],
+      ["The Good Place","","2016-2020"],
+      ["Downton Abbey","","2010-2015"],
+      ["Stranger Things","","2016-2025"],
+      ["The Bureau","Oficina de infiltrados","2015-2020"],
+      ["Insecure","","2016-2021"],
+      ["Nathan for You","Nathan para todos","2013-2017"],
+      ["I Think You Should Leave","","2019-present"],
+      ["Chappelle's Show","","2003-2006"],
+      ["PEN15","","2019-2021"],
+      ["Peep Show","","2003-2015"],
+      ["RuPaul's Drag Race","RuPaul: Reinas del drag","2009-present"],
+      ["Slow Horses","","2022-present"],
+      ["The Thick of It","","2005-2012"],
+      ["Anthony Bourdain: Parts Unknown","Anthony Bourdain: Desconocidos","2013-2018"],
+      ["Mare of Easttown","","2021"],
+      ["The Rehearsal","Los ensayos","2022-present"],
+      ["The Handmaid's Tale","El cuento de la criada","2017-2025"],
+      ["Ozark","","2017-2022"],
+      ["Anthony Bourdain: No Reservations","Anthony Bourdain: Sin reservas","2005-2012"],
+      ["The Shield","The Shield: Al margen de la ley","2002-2008"],
+      ["Beef (Season 1)","Bronca (Temporada 1)","2023"],
+      ["Squid Game","El juego del calamar","2021-2025"],
+      ["Barry","","2018-2023"],
+      ["The Bear","","2022-2026"],
+      ["Ted Lasso","","2020-present"],
+      ["Somebody Somewhere","","2022-2024"],
+      ["Modern Family","","2009-2020"],
+      ["It's Always Sunny in Philadelphia","Colgados en Filadelfia","2005-present"],
+      ["The Good Wife","","2009-2016"],
+      ["How To With John Wilson","Cómo... con John Wilson","2020-2023"],
+      ["The Queen's Gambit","Gambito de dama","2020"],
+      ["Better Things","","2016-2022"],
+      ["Justified","Justified: La ley de Raylan","2010-2015"],
+      ["Planet Earth","Planeta Tierra","2006"],
+      ["The Great British Baking Show","Bake Off España / Británico","2010-present"],
+      ["Shogun","Shōgun","2024-present"],
+      ["Reservation Dogs","","2021-2023"],
+      ["Dexter","","2006-2013"],
+      ["Baby Reindeer","Mi reno de peluche","2024"],
+      ["Eastbound & Down","De culo y sin frenos","2009-2013"],
+      ["Catastrophe","","2015-2019"],
+      ["The Night Of","","2016"],
+      ["Station Eleven","Estación Once","2021-2022"],
+      ["The Diplomat","La diplomática","2023-present"],
+      ["House","House M.D.","2004-2012"],
+      ["Halt and Catch Fire","","2014-2017"],
+      ["Community","","2009-2015"],
+      ["The OA","","2016-2019"],
+      ["Gilmore Girls","Las chicas Gilmore","2000-2007"],
+      ["Scandal","","2012-2018"]
+    ];
+
+    // EXACT STORAGE KEY PRESERVED FOR PERSISTENCE
+    const STORAGE_KEY = 'nyt100_series_estado_v1';
+    let state = {};
+    try {
+      state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch(e) {
+      state = {};
+    }
+
+    function save() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch(e) {
+        console.error('No se pudo guardar', e);
+      }
+    }
+
+    // Theme Management Init
+    const savedTheme = localStorage.getItem('nyt100_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('nyt100_theme', isDark ? 'dark' : 'light');
+    });
+
+    const list = document.getElementById('list');
+    const statsEl = document.getElementById('stats');
+    const emptyState = document.getElementById('emptyState');
+    let currentFilter = 'all';
+    let searchTerm = '';
+
+    function render() {
+      list.innerHTML = '';
+      let seenCount = 0, pendingCount = 0, visibleCount = 0;
+
+      shows.forEach((show, i) => {
+        const id = 'show_' + i;
+        const [name, spanishName, years] = show;
+        const st = state[id] || { seen: false, pending: false };
+        if (st.seen) seenCount++;
+        if (st.pending) pendingCount++;
+
+        const matchesFilter =
+          currentFilter === 'all' ||
+          (currentFilter === 'seen' && st.seen) ||
+          (currentFilter === 'pending' && st.pending) ||
+          (currentFilter === 'unmarked' && !st.seen && !st.pending);
+
+        const fullSearchString = (name + ' ' + spanishName).toLowerCase();
+        const matchesSearch = fullSearchString.includes(searchTerm);
+        const isVisible = matchesFilter && matchesSearch;
+
+        if (isVisible) visibleCount++;
+
+        const li = document.createElement('li');
+        li.className = `grid grid-cols-12 items-center py-3.5 px-3 rounded-xl transition-all duration-150 hover:bg-[var(--row-hover)] ${isVisible ? '' : 'hidden'}`;
+        
+        if (st.seen) {
+          li.classList.add('bg-emerald-500/[0.03]');
+        } else if (st.pending) {
+          li.classList.add('bg-amber-500/[0.03]');
+        }
+
+        const spanishSpan = spanishName ? `<span class="spanish-title text-xs sm:text-sm text-[var(--muted)] italic">(${spanishName})</span>` : '';
+
+        li.innerHTML = `
+          <div class="col-span-8 sm:col-span-9 flex items-center space-x-3.5 min-w-0 pr-2">
+            <span class="text-xs font-semibold text-[var(--muted)] w-6 text-right shrink-0 font-mono">${i+1}.</span>
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <span class="text-sm sm:text-base font-semibold tracking-tight ${st.seen ? 'line-through opacity-75' : ''}">${name}</span>
+                ${spanishSpan}
+              </div>
+              <span class="text-xs text-[var(--muted)] font-mono block mt-0.5">${years}</span>
+            </div>
+          </div>
+          <div class="col-span-2 sm:col-span-1 flex justify-center">
+            <label class="relative flex items-center justify-center p-2 cursor-pointer">
+              <input type="checkbox" class="peer sr-only" data-id="${id}" data-kind="seen" ${st.seen ? 'checked' : ''}>
+              <div class="w-6 h-6 rounded-lg border-2 border-[var(--line)] bg-[var(--bg)] peer-checked:bg-emerald-600 peer-checked:border-emerald-600 flex items-center justify-center transition-all shadow-xs hover:border-emerald-500">
+                <i class="fa-solid fa-check text-white text-[11px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+              </div>
+            </label>
+          </div>
+          <div class="col-span-2 sm:col-span-2 flex justify-center">
+            <label class="relative flex items-center justify-center p-2 cursor-pointer">
+              <input type="checkbox" class="peer sr-only" data-id="${id}" data-kind="pending" ${st.pending ? 'checked' : ''}>
+              <div class="w-6 h-6 rounded-lg border-2 border-[var(--line)] bg-[var(--bg)] peer-checked:bg-amber-500 peer-checked:border-amber-500 flex items-center justify-center transition-all shadow-xs hover:border-amber-400">
+                <i class="fa-solid fa-bookmark text-white text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+              </div>
+            </label>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      statsEl.textContent = `Vistas: ${seenCount} · Pendientes: ${pendingCount} · Total: ${shows.length}`;
+    }
+
+    // Event Delegation for Checkboxes
+    list.addEventListener('change', (e) => {
+      const input = e.target;
+      if (input.tagName !== 'INPUT') return;
+      const id = input.dataset.id;
+      const kind = input.dataset.kind;
+      if (!state[id]) state[id] = { seen: false, pending: false };
+      state[id][kind] = input.checked;
+      
+      if (kind === 'seen' && input.checked) state[id].pending = false;
+      if (kind === 'pending' && input.checked) state[id].seen = false;
+      
+      save();
+      render();
+    });
+
+    // Chip filter switching logic
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => {
+          c.classList.remove('active', 'bg-[var(--chip-active)]', 'text-[var(--chip-active-fg)]', 'border-transparent');
+          c.classList.add('border-[var(--line)]', 'bg-[var(--chip-bg)]');
+        });
+        chip.classList.add('active', 'bg-[var(--chip-active)]', 'text-[var(--chip-active-fg)]', 'border-transparent');
+        chip.classList.remove('border-[var(--line)]', 'bg-[var(--chip-bg)]');
+        currentFilter = chip.dataset.filter;
+        render();
+      });
+    });
+
+    const activeChip = document.querySelector('.chip.active');
+    if (activeChip) {
+      activeChip.classList.add('bg-[var(--chip-active)]', 'text-[var(--chip-active-fg)]', 'border-transparent');
+    }
+
+    // Search input handler
+    document.getElementById('searchBox').addEventListener('input', (e) => {
+      searchTerm = e.target.value.toLowerCase();
+      render();
+    });
+
+    // Custom Modal confirmation logic for Reset
+    const confirmModal = document.getElementById('confirmModal');
+    const modalBox = document.getElementById('modalBox');
+    const resetBtn = document.getElementById('resetBtn');
+    const modalCancel = document.getElementById('modalCancel');
+    const modalConfirm = document.getElementById('modalConfirm');
+
+    function openModal() {
+      confirmModal.classList.remove('opacity-0', 'pointer-events-none');
+      modalBox.classList.remove('scale-95');
+      modalBox.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      confirmModal.classList.add('opacity-0', 'pointer-events-none');
+      modalBox.classList.remove('scale-100');
+      modalBox.classList.add('scale-95');
+    }
+
+    resetBtn.addEventListener('click', openModal);
+    modalCancel.addEventListener('click', closeModal);
+    confirmModal.addEventListener('click', (e) => {
+      if (e.target === confirmModal) closeModal();
+    });
+
+    modalConfirm.addEventListener('click', () => {
+      state = {};
+      save();
+      render();
+      closeModal();
+    });
+
+    // Initial render call
     render();
-  });
-});
+  </script>
+</body>
+</html><!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Documento sin título</title>
+</head>
 
-document.getElementById('searchBox').addEventListener('input', (e)=>{
-  searchTerm = e.target.value.toLowerCase();
-  render();
-});
-
-document.getElementById('resetBtn').addEventListener('click', ()=>{
-  if(confirm('¿Borrar todas tus marcas de esta lista? Esta acción no se puede deshacer.')){
-    state = {};
-    save();
-    render();
-  }
-});
-
-render();
-</script>
+<body>
 </body>
 </html>
